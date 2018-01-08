@@ -1,31 +1,21 @@
-buildscript {
-    ext.kotlin_native_version = '0.5'
+allprojects {
+    buildscript {
+        ext.kotlin_version = '1.2.10'
+        ext.kotlin_native_version = '0.5'
 
+        repositories {
+            mavenCentral()
+            jcenter()
+        }
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        }
+
+    }
     repositories {
         mavenCentral()
-        maven {
-            url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies"
-        }
-    }
-
-   dependencies {
-       classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
-   }
-}
-
-apply plugin: 'konan'
-konan.targets = [ 'iphone', 'iphone_sim', 'macbook', 'android_arm64', 'android_arm32']
-
-konanArtifacts {
-    framework('pistachio') {
-
-    }
-    dynamic('pistachio_so') {
-        artifactName 'libpistachio'
+        jcenter()
+        google()
     }
 }
-compileKonanPistachioAndroid_arm32.enabled = false
-compileKonanPistachioAndroid_arm64.enabled = false
-compileKonanPistachio_soIphone.enabled = false
-compileKonanPistachio_soIphone_sim.enabled = false
-compileKonanPistachio_soMacbook.enabled = false
