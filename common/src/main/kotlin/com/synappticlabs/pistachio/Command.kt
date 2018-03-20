@@ -1,5 +1,5 @@
 package com.synappticlabs.pistachio
 
-interface Command<ID> {
-    fun execute(): ArrayList<ID>
+interface Command {
+    fun execute(repositories: ArrayList<Repository<Any>>): ArrayList<UUID>
 }

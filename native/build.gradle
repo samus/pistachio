@@ -17,7 +17,6 @@ konan.targets = [ 'iphone', 'iphone_sim', 'macbook']
 konanArtifacts {
     framework('pistachio') {
         enableMultiplatform true
-        baseDir '../build/konan/bin'
     }
 
 }

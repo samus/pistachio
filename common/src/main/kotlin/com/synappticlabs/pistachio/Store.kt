@@ -1,5 +1,7 @@
 package com.synappticlabs.pistachio
 
-interface Store {
-    fun dispatch(cmd: Command<Any>)
+class Store (private val repositories: ArrayList<Repository<Any>>){
+    fun dispatch(cmd: Command) {
+        cmd.execute(repositories)
+    }
 }
