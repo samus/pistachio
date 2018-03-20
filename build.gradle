@@ -1,20 +1,30 @@
-allprojects {
-    buildscript {
-        ext.kotlin_version = '1.2.10'
-        ext.kotlin_native_version = '0.5'
-
-        repositories {
-            mavenCentral()
-            jcenter()
-        }
-        dependencies {
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        }
-
-    }
+buildscript {
     repositories {
-        mavenCentral()
         jcenter()
         google()
+        maven { url "http://kotlin.bintray.com/kotlinx" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://dl.bintray.com/jetbrains/kotlin-native-dependencies" }
     }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "http://kotlin.bintray.com/kotlinx" }
+        google()
+        mavenCentral()
+    }
+
+    // tasks.withType(Test) {
+    //     testLogging {
+    //         showStandardStreams = true
+    //         events "passed", "failed"
+    //     }
+    // }
 }

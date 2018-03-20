@@ -16,8 +16,12 @@ konan.targets = [ 'iphone', 'iphone_sim', 'macbook']
 
 konanArtifacts {
     framework('pistachio') {
+        enableMultiplatform true
         baseDir '../build/konan/bin'
-        srcFiles fileTree('../common/src/main/kotlin')
     }
 
+}
+
+dependencies {
+    expectedBy project(':common')
 }
