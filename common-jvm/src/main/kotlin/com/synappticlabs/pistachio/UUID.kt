@@ -3,13 +3,20 @@ package com.synappticlabs.pistachio
 import java.util.UUID as JUUID
 
 actual class UUID {
-    private lateinit var juuid: JUUID
+    private var juuid: JUUID
+
+    internal constructor(uuid: JUUID) {
+        juuid = uuid
+    }
+
     actual companion object {
+        actual fun create(): UUID {
+            return UUID(JUUID.randomUUID())
+        }
+
         actual fun fromString(string: String): UUID? {
             return JUUID.fromString(string)?.let { juuid ->
-                val uuid = UUID()
-                uuid.juuid = juuid
-                return@let uuid
+                return@let UUID(juuid)
             }
         }
     }

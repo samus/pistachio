@@ -3,13 +3,21 @@ package com.synappticlabs.pistachio
 import platform.Foundation.*
 
 actual class UUID {
-    private lateinit var _uuid: NSUUID
+    private var nsuuid: NSUUID
+
+    internal constructor(uuid: NSUUID) {
+        nsuuid = uuid
+    }
+
     actual companion object {
+
+        actual fun create(): UUID {
+            return UUID(NSUUID())
+        }
+
         actual fun fromString(string: String): UUID? {
             return NSUUID(string = string)?.let { id ->
-                val uuid = UUID()
-                uuid._uuid = id
-                return@let uuid
+                return@let UUID(id)
             }
         }
     }

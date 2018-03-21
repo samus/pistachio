@@ -12,15 +12,15 @@ buildscript {
 }
 
 apply plugin: 'konan'
-konan.targets = [ 'iphone', 'iphone_sim', 'macbook']
+konan.targets = [ 'iphone', 'iphone_sim']
 
 konanArtifacts {
-    framework('pistachio') {
+    framework('Pistachio') {
         enableMultiplatform true
     }
-
 }
 
 dependencies {
     expectedBy project(':common')
 }
+
