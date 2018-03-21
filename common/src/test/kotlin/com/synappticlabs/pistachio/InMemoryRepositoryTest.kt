@@ -5,7 +5,7 @@ import kotlin.test.*
 
 @Suppress("unused")
 class InMemoryRepositoryTest {
-    lateinit var repo: InMemoryRepository<Foo>
+    private lateinit var repo: InMemoryRepository<Foo>
 
     @BeforeTest
     fun setup() {
@@ -24,8 +24,9 @@ class InMemoryRepositoryTest {
     fun scansARepo(){
         listOf("1a", "1b", "2c", "2d", "3e").map { Foo(it) }.forEach { repo.put(it) }
         val actual = repo.scan { it.name.startsWith("1") }
-        assertEquals(3, actual.count())
+        assertEquals(2, actual.count())
     }
+
+    internal data class Foo (val name: String)
 }
 
-data class Foo (val name: String)
