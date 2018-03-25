@@ -19,33 +19,56 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of accounts:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wpv-XB-pvu">
-                                <rect key="frame" x="107" y="333" width="161" height="21"/>
+                                <rect key="frame" x="12" y="20" width="161" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VL5-i5-whg">
-                                <rect key="frame" x="179.5" y="362" width="16" height="21"/>
+                                <rect key="frame" x="181" y="20" width="16" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j2r-9q-DbK">
+                                <rect key="frame" x="12" y="65" width="180" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="Z3g-jK-xtN"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YQA-7o-ews">
+                                <rect key="frame" x="222" y="65" width="89" height="30"/>
+                                <state key="normal" title="Add Account"/>
+                                <connections>
+                                    <action selector="addAccountWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fey-ZU-nde"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Wpv-XB-pvu" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="8l2-Q0-BwG"/>
-                            <constraint firstItem="VL5-i5-whg" firstAttribute="top" secondItem="Wpv-XB-pvu" secondAttribute="bottom" constant="8" id="Fgp-rX-3xm"/>
-                            <constraint firstItem="Wpv-XB-pvu" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lF2-ab-MXn"/>
-                            <constraint firstItem="VL5-i5-whg" firstAttribute="centerX" secondItem="Wpv-XB-pvu" secondAttribute="centerX" id="lbD-3c-7lH"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VL5-i5-whg" secondAttribute="trailing" constant="12" id="DXL-TJ-6zG"/>
+                            <constraint firstItem="j2r-9q-DbK" firstAttribute="top" secondItem="Wpv-XB-pvu" secondAttribute="bottom" constant="24" id="GLx-Az-qzV"/>
+                            <constraint firstItem="Wpv-XB-pvu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KcF-KZ-kaI"/>
+                            <constraint firstItem="VL5-i5-whg" firstAttribute="baseline" secondItem="Wpv-XB-pvu" secondAttribute="baseline" id="Lb0-ax-XqX"/>
+                            <constraint firstItem="YQA-7o-ews" firstAttribute="leading" secondItem="j2r-9q-DbK" secondAttribute="trailing" constant="30" id="N3w-X1-8dM"/>
+                            <constraint firstItem="j2r-9q-DbK" firstAttribute="leading" secondItem="Wpv-XB-pvu" secondAttribute="leading" id="RQ2-Gd-KpL"/>
+                            <constraint firstItem="Wpv-XB-pvu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="12" id="a8y-xM-4Ld"/>
+                            <constraint firstItem="YQA-7o-ews" firstAttribute="centerY" secondItem="j2r-9q-DbK" secondAttribute="centerY" id="p84-Ec-Bil"/>
+                            <constraint firstItem="VL5-i5-whg" firstAttribute="leading" secondItem="Wpv-XB-pvu" secondAttribute="trailing" constant="8" id="wIN-K3-yVl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="accountCountLabel" destination="VL5-i5-whg" id="2mO-SO-QuF"/>
+                        <outlet property="newAccountName" destination="j2r-9q-DbK" id="2Zs-0i-DYP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="32.799999999999997" y="31.934032983508249"/>
         </scene>
     </scenes>
 </document>

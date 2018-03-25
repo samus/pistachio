@@ -11,6 +11,8 @@ import Pistachio
 
 class ViewController: UIViewController, PistachioStoreViewListener {
     @IBOutlet var accountCountLabel: UILabel!
+    @IBOutlet var newAccountName: UITextField!
+
     var store: PistachioStore!
     var accountView = AccountView()
 
@@ -25,11 +27,21 @@ class ViewController: UIViewController, PistachioStoreViewListener {
 
 
     func onViewReady(view: PistachioStoreView) {
-        accountCountLabel.text = "\(accountView.peopleCount)"
+        refreshUI()
     }
 
     func onViewChanged(view: PistachioStoreView) {
+        refreshUI()
+    }
 
+    func refreshUI() {
+        accountCountLabel.text = "\(accountView.count)"
+    }
+
+    @IBAction func addAccount(sender: Any?) {
+        guard let name = newAccountName.text, name.isEmpty == false else { return }
+        let cmd = AddAccountCommand(accountName: name)
+        store.dispatch(cmd: cmd)
     }
 }
 
@@ -42,9 +54,35 @@ class Account: NSObject {
 }
 
 class AccountView: PistachioStoreView {
-    var peopleCount: Int = 0
+    var count: Int = 0
+    var accounts = [Account]()
+
     override func initialize(repositories: [String : PistachioRepository]) {
         guard let accountRepo = repositories["accounts"] else { return }
-        self.peopleCount = accountRepo.scan { _ in return 1 }.count
+        accounts = accountRepo.scan { _ in return 1 }.flatMap { $0 as? Account }
+        count = accounts.count
+    }
+
+    override func update(repositories: [String : PistachioRepository], changeSet: PistachioChangeList) {
+        guard let accountRepo = repositories["accounts"] else { return }
+        accounts = accountRepo.scan { _ in return 1 }.flatMap { $0 as? Account }
+        count = accounts.count
+    }
+}
+
+class AddAccountCommand: NSObject, PistachioCommand {
+    let accountName: String
+
+    init(accountName: String) {
+        self.accountName = accountName
+    }
+
+    func apply(repositories: [String : PistachioRepository]) -> PistachioChangeList {
+        let changes = PistachioChangeList()
+        guard let accountRepo = repositories["accounts"] else { return changes }
+        let newAccount = Account(name: accountName)
+        changes.added(uuid: accountRepo.put(obj: newAccount))
+
+        return changes
     }
 }
