@@ -1,4 +1,4 @@
-package com.synappticlabs.pistachio
+package com.synappticlabs.pistachio.repositories
 
 import com.synappticlabs.pistachio.repostories.InMemoryRepository
 import kotlin.test.*
