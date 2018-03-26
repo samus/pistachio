@@ -81,7 +81,7 @@ class AddAccountCommand: NSObject, PistachioCommand {
         let changes = PistachioChangeList()
         guard let accountRepo = repositories["accounts"] else { return changes }
         let newAccount = Account(name: accountName)
-        changes.added(uuid: accountRepo.put(obj: newAccount))
+        changes.added(repositoryName: accountRepo.name, uuid: accountRepo.put(obj: newAccount))
 
         return changes
     }
