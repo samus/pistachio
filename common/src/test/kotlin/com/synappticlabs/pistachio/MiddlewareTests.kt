@@ -33,12 +33,10 @@ class MiddlewareTests {
     fun dispatchesWithOneMiddleware() {
         var dispatched = false
         var middlewareExecuted = false
-        val assertMiddleware: Middleware = { _, _ ->
-            { next ->
-                { command ->
-                    middlewareExecuted = true
-                    next(command)
-                }
+        val assertMiddleware = object: Middleware {
+            override fun next(command: Command, repositories: Map<String, Repository<*>>, dispatch: DispatchFunction): Command? {
+                middlewareExecuted = true
+                return command
             }
         }
         store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware))
@@ -55,23 +53,21 @@ class MiddlewareTests {
     fun dispatchesWithTwoMiddleware() {
         var dispatched = false
         var middleware1Executed = false
-        val assertMiddleware1: Middleware = { _, _ ->
-            { next ->
-                { command ->
-                    middleware1Executed = true
-                    next(command)
-                }
+        val assertMiddleware1 = object: Middleware {
+            override fun next(command: Command, repositories: Map<String, Repository<*>>, dispatch: DispatchFunction): Command? {
+                middleware1Executed = true
+                return command
             }
+
         }
         var middleware2Executed = false
-        val assertMiddleware2: Middleware = { _, _ ->
-            { next ->
-                { command ->
-                    middleware2Executed = true
-                    next(command)
-                }
+        val assertMiddleware2 = object: Middleware {
+            override fun next(command: Command, repositories: Map<String, Repository<*>>, dispatch: DispatchFunction): Command? {
+                middleware2Executed = true
+                return command
             }
         }
+
         store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware1, assertMiddleware2))
         store.dispatch(object: Command{
             override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
@@ -87,11 +83,10 @@ class MiddlewareTests {
     fun middlewareCanHaltDispatch() {
         var dispatched = false
         var middlewareExecuted = false
-        val assertMiddleware: Middleware = { _, _ ->
-            { _ ->
-                { _ ->
-                    middlewareExecuted = true
-                }
+        val assertMiddleware = object: Middleware {
+            override fun next(command: Command, repositories: Map<String, Repository<*>>, dispatch: DispatchFunction): Command? {
+                middlewareExecuted = true
+                return null
             }
         }
         store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware))
@@ -109,20 +104,19 @@ class MiddlewareTests {
         var dispatched = false
         var altDispatched = false
         var middlewareExecuted = false
-        val assertMiddleware: Middleware = { dispatch, _ ->
-            { next ->
-                { command ->
-                    middlewareExecuted = true
-                    next(command)
-                    dispatch(object: Command{
-                        override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
-                            altDispatched = true
-                            return ChangeList()
-                        }
-                    })
-                }
+        val assertMiddleware = object: Middleware {
+            override fun next(command: Command, repositories: Map<String, Repository<*>>, dispatch: DispatchFunction): Command? {
+                dispatch(object: Command {
+                    override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
+                        altDispatched = true
+                        return ChangeList()
+                    }
+                })
+                middlewareExecuted = true
+                return command
             }
         }
+
         store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware))
         store.dispatch(object: Command{
             override fun apply(repositories: Map<String, Repository<*>>): ChangeList {

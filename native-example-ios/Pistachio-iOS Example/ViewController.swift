@@ -21,7 +21,7 @@ class ViewController: UIViewController, PistachioStoreViewListener {
         let accountRepo = PistachioInMemoryRepository(name: "accounts")
         ["sam", "bob", "john"].map { Account(name: $0) }.forEach { accountRepo.put(obj: $0) }
         
-        store = PistachioStore(repositories: [accountRepo.name:accountRepo])
+        store = PistachioStore(repositories: [accountRepo.name:accountRepo], middleware: [LoggingMiddleware()])
         accountView.listener = self
         store.registerView(view: accountView)
     }
@@ -42,7 +42,7 @@ class ViewController: UIViewController, PistachioStoreViewListener {
     @IBAction func addAccount(sender: Any?) {
         guard let name = newAccountName.text, name.isEmpty == false else { return }
         let cmd = AddAccountCommand(accountName: name)
-        store.dispatch(cmd: cmd)
+        store.dispatch(command: cmd)
     }
 }
 
@@ -85,5 +85,14 @@ class AddAccountCommand: NSObject, PistachioCommand {
         changes.added(repositoryName: accountRepo.name, uuid: accountRepo.put(obj: newAccount))
 
         return changes
+    }
+}
+
+class LoggingMiddleware: NSObject, PistachioMiddleware {
+    func next(command: PistachioCommand,
+              repositories: [String : PistachioRepository],
+              dispatch: @escaping (PistachioCommand) -> PistachioStdlibUnit) -> PistachioCommand? {
+        print("Executing command: \(command)")
+        return command
     }
 }
