@@ -20,6 +20,7 @@ class ViewController: UIViewController, PistachioStoreViewListener {
         super.viewDidLoad()
         let accountRepo = PistachioInMemoryRepository(name: "accounts")
         ["sam", "bob", "john"].map { Account(name: $0) }.forEach { accountRepo.put(obj: $0) }
+        
         store = PistachioStore(repositories: [accountRepo.name:accountRepo])
         accountView.listener = self
         store.registerView(view: accountView)

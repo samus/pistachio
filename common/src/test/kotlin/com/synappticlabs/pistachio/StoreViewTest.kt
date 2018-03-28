@@ -26,8 +26,6 @@ class StoreViewTests {
         assertEquals(77, v.oldest?.age)
     }
 
-    internal data class Person (val firstName: String, val lastName: String, val age: Int)
-
     internal class PersonStoreView: StoreView() {
         override fun initialize(repositories: Map<String, Repository<*>>) {
             repositories["People"]?.let { repo ->
@@ -50,7 +48,6 @@ class StoreViewTests {
             val repo = repositories["People"] ?: return
 
         }
-
 
         var populationCount = 0
         var oldest: Person? = null
