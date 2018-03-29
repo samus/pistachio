@@ -20,4 +20,7 @@ actual class UUID {
             }
         }
     }
+
+    actual val UUIDString: String
+        get() = juuid.toString()
 }

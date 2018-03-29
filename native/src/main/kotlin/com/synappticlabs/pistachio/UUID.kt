@@ -9,6 +9,9 @@ actual class UUID {
         nsuuid = uuid
     }
 
+    actual val UUIDString: String
+            get() = nsuuid.UUIDString
+
     actual companion object {
 
         actual fun create(): UUID {
