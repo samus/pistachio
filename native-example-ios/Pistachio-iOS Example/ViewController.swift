@@ -20,12 +20,11 @@ class ViewController: UIViewController, PistachioStoreViewListener {
         super.viewDidLoad()
         let accountRepo = PistachioInMemoryRepository(name: "accounts")
         ["sam", "bob", "john"].map { Account(name: $0) }.forEach { accountRepo.put(obj: $0) }
-        
-        store = PistachioStore(repositories: [accountRepo.name:accountRepo], middleware: [LoggingMiddleware()])
+        guard let diskRepo = PistachioKeyArchivingRepositoryCompanion().repositoryNamed(name: "disk") else { return }
+        store = PistachioStore(repositories: [accountRepo.name:accountRepo, diskRepo.name: diskRepo], middleware: [LoggingMiddleware()])
         accountView.listener = self
         store.registerView(view: accountView)
     }
-
 
     func onViewReady(view: PistachioStoreView) {
         refreshUI()
@@ -83,7 +82,8 @@ class AddAccountCommand: NSObject, PistachioCommand {
         guard let accountRepo = repositories["accounts"] else { return changes }
         let newAccount = Account(name: accountName)
         changes.added(repositoryName: accountRepo.name, uuid: accountRepo.put(obj: newAccount))
-
+        guard let disk = repositories["disk"] else { return changes }
+        changes.added(repositoryName: disk.name, uuid: disk.put(obj: newAccount))
         return changes
     }
 }
