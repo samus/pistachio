@@ -23,8 +23,8 @@ interface DispatchQueue {
     fun asyncAfter(ms: Long, block: () -> Unit)
 }
 
-actual class Dispatcher {
-    actual fun dispatch(block: () -> Unit) {
+actual class Dispatcher: Dispatch {
+    actual override fun dispatch(block: () -> Unit) {
         DispatchQueue.main.async(block)
     }
 }

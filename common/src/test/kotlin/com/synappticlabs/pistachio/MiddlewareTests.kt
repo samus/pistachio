@@ -19,7 +19,7 @@ class MiddlewareTests {
 
     @Test
     fun dispatchesWithNoMiddleware() {
-        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)))
+        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), dispatcher = MockDispatcher())
         var dispatched = false
         store.dispatch(object: Command{
             override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
@@ -39,7 +39,7 @@ class MiddlewareTests {
                 return command
             }
         }
-        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware))
+        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware), dispatcher = MockDispatcher())
         store.dispatch(object: Command{
             override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
                 dispatched = true
@@ -68,7 +68,7 @@ class MiddlewareTests {
             }
         }
 
-        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware1, assertMiddleware2))
+        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware1, assertMiddleware2), dispatcher = MockDispatcher())
         store.dispatch(object: Command{
             override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
                 dispatched = true
@@ -89,7 +89,7 @@ class MiddlewareTests {
                 return null
             }
         }
-        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware))
+        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware), dispatcher = MockDispatcher())
         store.dispatch(object: Command{
             override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
                 dispatched = true
@@ -117,7 +117,7 @@ class MiddlewareTests {
             }
         }
 
-        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware))
+        store = Store(mapOf(Pair(peopleRepo.name, peopleRepo)), listOf(assertMiddleware), dispatcher = MockDispatcher())
         store.dispatch(object: Command{
             override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
                 dispatched = true

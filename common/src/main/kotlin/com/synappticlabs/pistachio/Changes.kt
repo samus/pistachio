@@ -27,4 +27,8 @@ class ChangeList {
     fun updated(repositoryName: String, uuids: List<UUID>) {
         changes.addAll(uuids.map { Change.Update(repositoryName, it) })
     }
+
+    companion object {
+        val empty = ChangeList()
+    }
 }
