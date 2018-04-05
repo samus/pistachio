@@ -4,7 +4,6 @@
 
 build
 local.properties
-gradle.properties
 android/.idea
 *.iml
 native-example-ios/Pistachio-iOS Example.xcodeproj/project.xcworkspace/xcuserdata
