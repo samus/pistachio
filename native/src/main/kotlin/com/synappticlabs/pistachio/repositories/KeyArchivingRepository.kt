@@ -14,8 +14,6 @@ import com.synappticlabs.pistachio.Repository
   * KeyArchivingRepository will write out objects to a directory that have been serialized with
   * NSCoding and NSKeyArchiving.
   *
-  * WARNING: Currently due to limitations with Kotlin Native this code crashes.
-  * Once passing ObjC objects to ObjC functions is supported it will be fixed.
  */
 class KeyArchivingRepository<T>(override val name: String, val path: String): Repository<T> {
     private val fileManager = NSFileManager.defaultManager
@@ -69,9 +67,6 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
     }
 
     internal fun write(uuid: UUID, obj: T) {
-//        if (obj !is NSCoding) {
-//            throw IllegalArgumentException("Object: $obj must be a subclass of NSObject and implement NSCoding.")
-//        }
         val objc = obj as Any
         val data = NSKeyedArchiver.archivedDataWithRootObject(objc)
         val file = fileURL(uuid)
