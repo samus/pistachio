@@ -19,7 +19,7 @@ internal fun <T> NSEnumerator.toList(): List<T> {
     val items = mutableListOf<T>()
     var obj = nextObject()
     while (obj != null) {
-        items += obj.uncheckedCast<T>()
+        items += (obj as T)
         obj = nextObject()
     }
     return items

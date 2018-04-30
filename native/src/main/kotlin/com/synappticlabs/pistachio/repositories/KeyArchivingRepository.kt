@@ -42,11 +42,16 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
     }
 
     override fun scan(filter: (T) -> Boolean): List<T> {
-        val files: List<String> = fileManager.contentsOfDirectoryAtPath(directory.absoluteString!!, null).toList()
-        val urls: List<NSURL> = files.mapNotNull {path: String ->
-            return@mapNotNull NSURL.fileURLWithPath(path, isDirectory = true)
-        }
         val objs = ArrayList<T>()
+        val contents = fileManager.contentsOfDirectoryAtPath(directory.path!!, null)
+        if (contents == null) { return objs }
+
+        val files: List<String> = contents.mapNotNull { it ->
+            return@mapNotNull it as String
+        }.filter {it.startsWith(".") == false }
+        val urls: List<NSURL> = files.mapNotNull {file: String ->
+            return@mapNotNull directory.URLByAppendingPathComponent(file)
+        }
         urls.forEach { path: NSURL ->
             readFile(path)?.let { it ->
                 if (filter(it)) {
@@ -64,10 +69,10 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
     }
 
     internal fun write(uuid: UUID, obj: T) {
-        if (obj !is ObjCObject) {
-            throw IllegalArgumentException("Object: $obj must be a subclass of NSObject and implement NSCoding.")
-        }
-        val objc = obj as ObjCObject
+//        if (obj !is NSCoding) {
+//            throw IllegalArgumentException("Object: $obj must be a subclass of NSObject and implement NSCoding.")
+//        }
+        val objc = obj as Any
         val data = NSKeyedArchiver.archivedDataWithRootObject(objc)
         val file = fileURL(uuid)
         val path = file!!.path!!
@@ -76,7 +81,7 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
     }
 
     internal fun readFile(url: NSURL): T? {
-        val file = url.absoluteString ?: return null
+        val file = url.path ?: return null
         if (fileManager.fileExistsAtPath(file) == false) { return null }
         try {
             //Not sure if this is a good idea but it won't compile otherwise.

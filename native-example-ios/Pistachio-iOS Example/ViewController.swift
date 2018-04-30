@@ -18,10 +18,8 @@ class ViewController: UIViewController, PistachioStoreViewListener {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let accountRepo = PistachioInMemoryRepository(name: "accounts")
-        ["sam", "bob", "john"].map { Account(name: $0) }.forEach { accountRepo.put(obj: $0) }
-        guard let diskRepo = PistachioKeyArchivingRepositoryCompanion().repositoryNamed(name: "disk") else { return }
-        store = PistachioStore(repositories: [accountRepo.name:accountRepo, diskRepo.name: diskRepo], middleware: [LoggingMiddleware()])
+        guard let accountRepo = PistachioKeyArchivingRepositoryCompanion().repositoryNamed(name: "accounts") else { return }
+        store = PistachioStore(repositories: [accountRepo.name: accountRepo], middleware: [LoggingMiddleware()])
         accountView.listener = self
         store.registerView(view: accountView)
     }
@@ -45,12 +43,22 @@ class ViewController: UIViewController, PistachioStoreViewListener {
     }
 }
 
-class Account: NSObject {
-    let name: String
+class Account: NSObject, NSCoding {
 
     init(name: String) {
         self.name = name
     }
+
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        guard let n = aDecoder.decodeObject(forKey: "name") as? String else { return nil }
+        self.name = n
+    }
+
+    let name: String
 }
 
 class AccountView: PistachioStoreView {
@@ -59,13 +67,13 @@ class AccountView: PistachioStoreView {
 
     override func initialize(repositories: [String : PistachioRepository]) {
         guard let accountRepo = repositories["accounts"] else { return }
-        accounts = accountRepo.scan { _ in return 1 }.flatMap { $0 as? Account }
+        accounts = accountRepo.scan { _ in return 1 }.compactMap { $0 as? Account }
         count = accounts.count
     }
 
     override func update(repositories: [String : PistachioRepository], changeSet: PistachioChangeList) {
         guard let accountRepo = repositories["accounts"] else { return }
-        accounts = accountRepo.scan { _ in return 1 }.flatMap { $0 as? Account }
+        accounts = accountRepo.scan { _ in return 1 }.compactMap { $0 as? Account }
         count = accounts.count
     }
 }
@@ -82,8 +90,6 @@ class AddAccountCommand: NSObject, PistachioCommand {
         guard let accountRepo = repositories["accounts"] else { return changes }
         let newAccount = Account(name: accountName)
         changes.added(repositoryName: accountRepo.name, uuid: accountRepo.put(obj: newAccount))
-        guard let disk = repositories["disk"] else { return changes }
-        changes.added(repositoryName: disk.name, uuid: disk.put(obj: newAccount))
         return changes
     }
 }

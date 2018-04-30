@@ -7,17 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		091ADA562096D6B200EFF81B /* Pistachio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091ADA552096D6B200EFF81B /* Pistachio.framework */; };
+		091ADA582096D74900EFF81B /* Pistachio.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 091ADA552096D6B200EFF81B /* Pistachio.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		09419F652062F65000A53AE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09419F642062F65000A53AE7 /* AppDelegate.swift */; };
 		09419F672062F65000A53AE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09419F662062F65000A53AE7 /* ViewController.swift */; };
 		09419F6A2062F65000A53AE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09419F682062F65000A53AE7 /* Main.storyboard */; };
 		09419F6C2062F65000A53AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09419F6B2062F65000A53AE7 /* Assets.xcassets */; };
 		09419F6F2062F65000A53AE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09419F6D2062F65000A53AE7 /* LaunchScreen.storyboard */; };
 		09419F7A2062F65000A53AE7 /* Pistachio_iOS_ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09419F792062F65000A53AE7 /* Pistachio_iOS_ExampleTests.swift */; };
-		09419F8C2062FAB000A53AE7 /* Pistachio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09419F8A2062FAAF00A53AE7 /* Pistachio.framework */; };
-		09419F8D2062FAB000A53AE7 /* Pistachio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09419F8B2062FAB000A53AE7 /* Pistachio.framework */; };
-		09419F8E2062FD2300A53AE7 /* Pistachio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09419F8B2062FAB000A53AE7 /* Pistachio.framework */; };
-		09419F902062FD2300A53AE7 /* Pistachio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09419F8A2062FAAF00A53AE7 /* Pistachio.framework */; };
-		09419F912062FD2300A53AE7 /* Pistachio.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 09419F8A2062FAAF00A53AE7 /* Pistachio.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,13 +28,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		09419F922062FD2300A53AE7 /* Embed Frameworks */ = {
+		091ADA542096D27D00EFF81B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				09419F912062FD2300A53AE7 /* Pistachio.framework in Embed Frameworks */,
+				091ADA582096D74900EFF81B /* Pistachio.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		091ADA552096D6B200EFF81B /* Pistachio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pistachio.framework; path = ../native/build/konan/bin/Pistachio.framework; sourceTree = "<group>"; };
 		09419F612062F65000A53AE7 /* Pistachio-iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pistachio-iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09419F642062F65000A53AE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09419F662062F65000A53AE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,8 +53,6 @@
 		09419F752062F65000A53AE7 /* Pistachio-iOS ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pistachio-iOS ExampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09419F792062F65000A53AE7 /* Pistachio_iOS_ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pistachio_iOS_ExampleTests.swift; sourceTree = "<group>"; };
 		09419F7B2062F65000A53AE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		09419F8A2062FAAF00A53AE7 /* Pistachio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pistachio.framework; path = ../native/build/konan/bin/iphone_sim/Pistachio.framework; sourceTree = "<group>"; };
-		09419F8B2062FAB000A53AE7 /* Pistachio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pistachio.framework; path = ../native/build/konan/bin/iphone/Pistachio.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09419F8C2062FAB000A53AE7 /* Pistachio.framework in Frameworks */,
-				09419F8E2062FD2300A53AE7 /* Pistachio.framework in Frameworks */,
-				09419F8D2062FAB000A53AE7 /* Pistachio.framework in Frameworks */,
-				09419F902062FD2300A53AE7 /* Pistachio.framework in Frameworks */,
+				091ADA562096D6B200EFF81B /* Pistachio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,8 +80,7 @@
 				09419F632062F65000A53AE7 /* Pistachio-iOS Example */,
 				09419F782062F65000A53AE7 /* Pistachio-iOS ExampleTests */,
 				09419F622062F65000A53AE7 /* Products */,
-				09419F8B2062FAB000A53AE7 /* Pistachio.framework */,
-				09419F8A2062FAAF00A53AE7 /* Pistachio.framework */,
+				09D93DA32096CCAF002588F6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +115,14 @@
 			path = "Pistachio-iOS ExampleTests";
 			sourceTree = "<group>";
 		};
+		09D93DA32096CCAF002588F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				091ADA552096D6B200EFF81B /* Pistachio.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -133,7 +133,7 @@
 				09419F5D2062F65000A53AE7 /* Sources */,
 				09419F5E2062F65000A53AE7 /* Frameworks */,
 				09419F5F2062F65000A53AE7 /* Resources */,
-				09419F922062FD2300A53AE7 /* Embed Frameworks */,
+				091ADA542096D27D00EFF81B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -169,7 +169,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Synapptic Labs";
 				TargetAttributes = {
 					09419F602062F65000A53AE7 = {
@@ -284,6 +284,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -291,6 +292,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -302,6 +304,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -341,6 +344,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -348,6 +352,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -359,6 +364,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -383,10 +389,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TG868JT2ZH;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../native/build/konan/bin/iphone_sim",
-					"$(SRCROOT)/../native/build/konan/bin/iphone/**",
-				);
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../native/build/konan/bin/";
 				INFOPLIST_FILE = "Pistachio-iOS Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synappticlabs.Pistachio-iOS-Example";
@@ -402,10 +406,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = TG868JT2ZH;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../native/build/konan/bin/iphone_sim",
-					"$(SRCROOT)/../native/build/konan/bin/iphone/**",
-				);
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../native/build/konan/bin/";
 				INFOPLIST_FILE = "Pistachio-iOS Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.synappticlabs.Pistachio-iOS-Example";

@@ -19,7 +19,7 @@ actual class UUID {
         }
 
         actual fun fromString(string: String): UUID? {
-            return NSUUID(string = string)?.let { id ->
+            return NSUUID(uUIDString = string)?.let { id ->
                 return@let UUID(id)
             }
         }

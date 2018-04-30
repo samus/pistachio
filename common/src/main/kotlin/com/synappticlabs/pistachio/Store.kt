@@ -1,10 +1,12 @@
 package com.synappticlabs.pistachio
 
-class Store (val repositories: Map<String, Repository<*>>,
-             private val middleware: List<Middleware> = emptyList(),
-             private val dispatcher: Dispatch = Dispatcher()){
+class Store(val repositories: Map<String, Repository<*>>,
+            private val middleware: List<Middleware> = emptyList(),
+            private val dispatcher: Dispatch = Dispatcher()) {
 
     private val views = ArrayList<StoreView>()
+
+    constructor(repositories: Map<String, Repository<*>>, middleware: List<Middleware> = emptyList()) : this(repositories, middleware, Dispatcher())
 
     fun dispatch(command: Command) {
         dispatcher.dispatch {
