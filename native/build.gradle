@@ -24,3 +24,5 @@ dependencies {
     expectedBy project(':common')
 }
 
+//Need to lipo the framework together and copy the headers and other files from one of the framework directories.
+//lipo ./ios_arm64/Pistachio.framework/Pistachio ./ios_x64/Pistachio.framework/Pistachio -create -output Pistachio.framework/Pistachio
