@@ -5,13 +5,13 @@ buildscript {
             url  "https://dl.bintray.com/jetbrains/kotlin-native-dependencies"
         }
     }
-
    dependencies {
         classpath "org.jetbrains.kotlin:kotlin-native-gradle-plugin:$kotlin_native_version"
    }
 }
 
 apply plugin: 'konan'
+
 konan.targets = [ 'iphone', 'iphone_sim']
 
 konanArtifacts {
