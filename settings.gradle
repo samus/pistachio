@@ -16,7 +16,5 @@ include 'services:webservice'
 */
 
 rootProject.name = 'pistachio'
-include 'common'
-include 'common-jvm'
-include 'android-aar', 'android-example'
-include 'native'
+include 'pistachio'
+include 'android-example'
