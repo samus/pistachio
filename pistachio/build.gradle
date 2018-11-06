@@ -7,22 +7,38 @@ group = 'com.synappticlabs.pistachio'
 version = 0.1
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "$pistachio_version"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        project.archivesBaseName = "pistachio"
+        project.version = android.defaultConfig.versionName
     }
     buildTypes {
+        debug {}
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (outputFile != null && outputFileName.endsWith('.aar')) {
+                outputFileName = "${archivesBaseName}-${variant.buildType.name}-${version}.aar"
+            }
+        }
+    }    
 }
 
 dependencies {
     // Specify Kotlin/JVM stdlib dependency.
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7'
-
+//    implementation "androidx.appcompat:appcompat:$androidx_version"
+    
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
@@ -32,7 +48,7 @@ dependencies {
     androidTestImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
 }
 
 kotlin {

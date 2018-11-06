@@ -4,16 +4,19 @@ plugins {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
-        applicationId "org.konan.multiplatform"
-        minSdkVersion 15
-        targetSdkVersion 27
+        applicationId "com.synappticlabs.pistachio.android.example"
+        minSdkVersion 21
+        targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+        debug {}
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -29,15 +32,19 @@ kotlin {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation project(':pistachio')
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout-solver:1.1.3'
+    implementation "androidx.appcompat:appcompat:$androidx_version"
+    implementation "androidx.core:core:$androidx_version"
 
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
 }
