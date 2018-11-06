@@ -1,7 +1,5 @@
 package com.synappticlabs.pistachio
 
-import kotlinx.cinterop.*
-import platform.Foundation.*
 import platform.darwin.*
 
 interface DispatchQueue {
@@ -12,7 +10,9 @@ interface DispatchQueue {
             }
 
             override fun asyncAfter(ms: Long, block: () -> Unit) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, ms * NSEC_PER_MSEC), dispatch_get_main_queue()) {
+                val nanosecondsPerMillisecond: Long = 1_000_000
+                val time = dispatch_time(DISPATCH_TIME_NOW, nanosecondsPerMillisecond * ms)
+                dispatch_after(time, dispatch_get_main_queue()) {
                     block()
                 }
             }

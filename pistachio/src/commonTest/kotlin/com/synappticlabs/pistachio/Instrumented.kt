@@ -1,3 +1,3 @@
 package com.synappticlabs.pistachio
 
-expect annotation class Instrumented()
+//expect annotation class Instrumented()
