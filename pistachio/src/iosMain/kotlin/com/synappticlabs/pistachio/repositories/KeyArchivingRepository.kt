@@ -15,12 +15,9 @@ import com.synappticlabs.pistachio.Repository
   * NSCoding and NSKeyArchiving.
   *
  */
-class KeyArchivingRepository<T>(override val name: String, val path: String): Repository<T> {
+abstract class KeyArchivingRepository<T>(override val name: String, private val path: String): Repository<T> {
     private val fileManager = NSFileManager.defaultManager
-    private val directory: NSURL
-    init {
-        directory = NSURL.fileURLWithPath(path, isDirectory = true)
-    }
+    private val directory: NSURL = NSURL.fileURLWithPath(path, isDirectory = true)
 
     override fun put(obj: T): UUID {
         val uuid = UUID.create()
@@ -41,12 +38,12 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
 
     override fun scan(filter: (T) -> Boolean): List<T> {
         val objs = ArrayList<T>()
-        val contents = fileManager.contentsOfDirectoryAtPath(directory.path!!, null)
-        if (contents == null) { return objs }
+        val contents = fileManager.contentsOfDirectoryAtPath(directory.path!!, null) ?: return objs
 
         val files: List<String> = contents.mapNotNull { it ->
             return@mapNotNull it as String
-        }.filter {it.startsWith(".") == false }
+        }.filter { it -> !it.startsWith(".") }
+
         val urls: List<NSURL> = files.mapNotNull {file: String ->
             return@mapNotNull directory.URLByAppendingPathComponent(file)
         }
@@ -75,7 +72,7 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
         fileManager.createFileAtPath(path, contents = data, attributes = null)
     }
 
-    internal fun readFile(url: NSURL): T? {
+    private fun readFile(url: NSURL): T? {
         val file = url.path ?: return null
         if (fileManager.fileExistsAtPath(file) == false) { return null }
         try {
@@ -87,12 +84,12 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
         }
     }
 
-    internal fun fileURL(uuid: UUID): NSURL? {
+    private fun fileURL(uuid: UUID): NSURL? {
         return directory.URLByAppendingPathComponent(uuid.UUIDString)
     }
 
     companion object {
-        fun <T>repositoryNamed(name: String): KeyArchivingRepository<T>? {
+        fun pathForRepositoryNamed(name: String): String? {
             val fileManager = NSFileManager.defaultManager
             val documents = fileManager.URLForDirectory(NSDocumentDirectory,
                     inDomain = NSUserDomainMask,
@@ -105,10 +102,10 @@ class KeyArchivingRepository<T>(override val name: String, val path: String): Re
             val created = fileManager.createDirectoryAtURL (directory, withIntermediateDirectories = true,
                     attributes = null,
                     error = null)
-            if (created) {
-                return KeyArchivingRepository<T>(name = name, path = path)
+            return if (created) {
+                path
             } else {
-                return null
+                null
             }
         }
     }

@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		091ADA562096D6B200EFF81B /* Pistachio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091ADA552096D6B200EFF81B /* Pistachio.framework */; };
-		091ADA582096D74900EFF81B /* Pistachio.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 091ADA552096D6B200EFF81B /* Pistachio.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		09419F652062F65000A53AE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09419F642062F65000A53AE7 /* AppDelegate.swift */; };
 		09419F672062F65000A53AE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09419F662062F65000A53AE7 /* ViewController.swift */; };
 		09419F6A2062F65000A53AE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09419F682062F65000A53AE7 /* Main.storyboard */; };
 		09419F6C2062F65000A53AE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09419F6B2062F65000A53AE7 /* Assets.xcassets */; };
 		09419F6F2062F65000A53AE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09419F6D2062F65000A53AE7 /* LaunchScreen.storyboard */; };
 		09419F7A2062F65000A53AE7 /* Pistachio_iOS_ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09419F792062F65000A53AE7 /* Pistachio_iOS_ExampleTests.swift */; };
+		72672666219D24EE007A9785 /* pistachio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7267265F219D24EE007A9785 /* pistachio.framework */; };
+		72672667219D24EE007A9785 /* pistachio.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7267265F219D24EE007A9785 /* pistachio.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +25,13 @@
 			remoteGlobalIDString = 09419F602062F65000A53AE7;
 			remoteInfo = "Pistachio-iOS Example";
 		};
+		72672664219D24EE007A9785 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09419F592062F65000A53AE7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7267265E219D24EE007A9785;
+			remoteInfo = pistachio;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,7 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				091ADA582096D74900EFF81B /* Pistachio.framework in Embed Frameworks */,
+				72672667219D24EE007A9785 /* pistachio.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,7 +49,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		091ADA552096D6B200EFF81B /* Pistachio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pistachio.framework; path = ../native/build/konan/bin/Pistachio.framework; sourceTree = "<group>"; };
 		09419F612062F65000A53AE7 /* Pistachio-iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pistachio-iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09419F642062F65000A53AE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09419F662062F65000A53AE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +59,8 @@
 		09419F752062F65000A53AE7 /* Pistachio-iOS ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pistachio-iOS ExampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09419F792062F65000A53AE7 /* Pistachio_iOS_ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pistachio_iOS_ExampleTests.swift; sourceTree = "<group>"; };
 		09419F7B2062F65000A53AE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7267265F219D24EE007A9785 /* pistachio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = pistachio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7267266B219D256B007A9785 /* pistachio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pistachio; path = ../pistachio; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,11 +68,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				091ADA562096D6B200EFF81B /* Pistachio.framework in Frameworks */,
+				72672666219D24EE007A9785 /* pistachio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		09419F722062F65000A53AE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7267265B219D24EE007A9785 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -77,6 +92,7 @@
 		09419F582062F65000A53AE7 = {
 			isa = PBXGroup;
 			children = (
+				7267266B219D256B007A9785 /* pistachio */,
 				09419F632062F65000A53AE7 /* Pistachio-iOS Example */,
 				09419F782062F65000A53AE7 /* Pistachio-iOS ExampleTests */,
 				09419F622062F65000A53AE7 /* Products */,
@@ -89,6 +105,7 @@
 			children = (
 				09419F612062F65000A53AE7 /* Pistachio-iOS Example.app */,
 				09419F752062F65000A53AE7 /* Pistachio-iOS ExampleTests.xctest */,
+				7267265F219D24EE007A9785 /* pistachio.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,7 +135,6 @@
 		09D93DA32096CCAF002588F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				091ADA552096D6B200EFF81B /* Pistachio.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -138,6 +154,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				72672665219D24EE007A9785 /* PBXTargetDependency */,
 			);
 			name = "Pistachio-iOS Example";
 			productName = "Pistachio-iOS Example";
@@ -162,6 +179,22 @@
 			productReference = 09419F752062F65000A53AE7 /* Pistachio-iOS ExampleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		7267265E219D24EE007A9785 /* pistachio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72672668219D24EE007A9785 /* Build configuration list for PBXNativeTarget "pistachio" */;
+			buildPhases = (
+				7267266C219D25A7007A9785 /* ShellScript */,
+				7267265B219D24EE007A9785 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pistachio;
+			productName = pistachio;
+			productReference = 7267265F219D24EE007A9785 /* pistachio.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -181,6 +214,10 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 09419F602062F65000A53AE7;
 					};
+					7267265E219D24EE007A9785 = {
+						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 09419F5C2062F65000A53AE7 /* Build configuration list for PBXProject "Pistachio-iOS Example" */;
@@ -198,6 +235,7 @@
 			targets = (
 				09419F602062F65000A53AE7 /* Pistachio-iOS Example */,
 				09419F742062F65000A53AE7 /* Pistachio-iOS ExampleTests */,
+				7267265E219D24EE007A9785 /* pistachio */,
 			);
 		};
 /* End PBXProject section */
@@ -221,6 +259,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7267266C219D25A7007A9785 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../pistachio\" copyFramework \\\n-Pconfiguration.build.dir=\"$CONFIGURATION_BUILD_DIR\" \\\n-Pkotlin.build.type=\"$KOTLIN_BUILD_TYPE\" \\\n-Pkotlin.target=\"$KOTLIN_TARGET\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		09419F5D2062F65000A53AE7 /* Sources */ = {
@@ -247,6 +301,11 @@
 			isa = PBXTargetDependency;
 			target = 09419F602062F65000A53AE7 /* Pistachio-iOS Example */;
 			targetProxy = 09419F762062F65000A53AE7 /* PBXContainerItemProxy */;
+		};
+		72672665219D24EE007A9785 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7267265E219D24EE007A9785 /* pistachio */;
+			targetProxy = 72672664219D24EE007A9785 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -451,6 +510,56 @@
 			};
 			name = Release;
 		};
+		72672669219D24EE007A9785 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = TG868JT2ZH;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.synappticlabs.pistachio;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7267266A219D24EE007A9785 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = TG868JT2ZH;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.synappticlabs.pistachio;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -477,6 +586,15 @@
 			buildConfigurations = (
 				09419F822062F65000A53AE7 /* Debug */,
 				09419F832062F65000A53AE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72672668219D24EE007A9785 /* Build configuration list for PBXNativeTarget "pistachio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72672669219D24EE007A9785 /* Debug */,
+				7267266A219D24EE007A9785 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

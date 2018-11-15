@@ -7,4 +7,7 @@ interface Repository<T> {
     fun read(id: UUID): T?
     fun scan(filter: (T) -> Boolean): List<T>
     fun delete(id: UUID)
+
+    fun apply(command: Command, changeList: ChangeList)
+
 }

@@ -10,9 +10,9 @@ import java.io.ObjectOutputStream
 import java.io.IOException
 import java.lang.ClassNotFoundException
 
-class SerializedRepository<T:Any>(override val name: String,
-                              val directory: File,
-                              val context: Context) : Repository<T> {
+abstract class SerializedRepository<T:Any>(override val name: String,
+                                           val directory: File,
+                                           val context: Context) : Repository<T> {
 
 
     override fun put(obj: T): UUID {
@@ -44,7 +44,7 @@ class SerializedRepository<T:Any>(override val name: String,
         file.delete()
     }
 
-    internal fun write(uuid: UUID, obj: T) {
+    private fun write(uuid: UUID, obj: T) {
         val file = File(directory, uuid.UUIDString)
         val fStream = FileOutputStream(file)
         val objStream = ObjectOutputStream(fStream)
@@ -55,7 +55,7 @@ class SerializedRepository<T:Any>(override val name: String,
         objStream.close()
     }
 
-    internal fun read(file: File): T? {
+    private fun read(file: File): T? {
         try {
             val fStream = FileInputStream(file)
             val objStream = ObjectInputStream(fStream)
@@ -72,9 +72,9 @@ class SerializedRepository<T:Any>(override val name: String,
     }
 
     companion object {
-        fun <T:Any> repositoryNamed(name: String, context: Context): SerializedRepository<T>? {
-            val repoDir = context.getDir("pistachio" + pathSeparator + name, Context.MODE_PRIVATE)
-            return SerializedRepository(name, repoDir, context)
+        fun directoryForRepositoryNamed(name: String, context: Context): File {
+            return context.getDir("pistachio" + pathSeparator + name, Context.MODE_PRIVATE)
+
         }
     }
 }

@@ -15,7 +15,10 @@ class Store(val repositories: Map<String, Repository<*>>,
             for (m in middleware) {
                 cmd = m.next(cmd, repositories, dispatch) ?: break
             }
-            val changes = cmd.apply(repositories)
+            val changes = ChangeList()
+            repositories.forEach { entry ->
+                entry.value.apply(command = cmd, changeList = changes)
+            }
             views.forEach { it.storeChanged(repositories, changes) }
         }
     }

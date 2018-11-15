@@ -1,15 +1,17 @@
 package com.synappticlabs.pistachio.repositories
 
+import com.synappticlabs.pistachio.ChangeList
+import com.synappticlabs.pistachio.Command
 import com.synappticlabs.pistachio.repostories.InMemoryRepository
 import kotlin.test.*
 
 @Suppress("unused")
 class InMemoryRepositoryTest {
-    private lateinit var repo: InMemoryRepository<Foo>
+    private lateinit var repo: FooRepo
 
     @BeforeTest
     fun setup() {
-        repo = InMemoryRepository(name = "FooPo")
+        repo = FooRepo()
     }
 
     @Test
@@ -28,5 +30,9 @@ class InMemoryRepositoryTest {
     }
 
     internal data class Foo (val name: String)
+    internal class FooRepo: InMemoryRepository<Foo>("Foo") {
+        override fun apply(command: Command, changeList: ChangeList) {
+        }
+    }
 }
 

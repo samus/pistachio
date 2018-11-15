@@ -3,7 +3,7 @@ package com.synappticlabs.pistachio.repostories
 import com.synappticlabs.pistachio.Repository
 import com.synappticlabs.pistachio.UUID
 
-class InMemoryRepository<T>(override val name: String) : Repository<T> {
+abstract class InMemoryRepository<T>(override val name: String) : Repository<T> {
     private val repo = HashMap<UUID, T>()
 
     override fun put(obj: T): UUID {

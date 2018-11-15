@@ -7,39 +7,67 @@
 //
 
 import UIKit
-import Pistachio
+import pistachio
 
-class ViewController: UIViewController, PistachioStoreViewListener {
+fileprivate let repoName = "Account"
+
+class ViewController: UIViewController, StoreViewListener, UITableViewDataSource {
+    
     @IBOutlet var accountCountLabel: UILabel!
     @IBOutlet var newAccountName: UITextField!
-
-    var store: PistachioStore!
+    @IBOutlet var accountTable: UITableView!
+    
+    var store: Store!
     var accountView = AccountView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let accountRepo = PistachioKeyArchivingRepositoryCompanion().repositoryNamed(name: "accounts") else { return }
-        store = PistachioStore(repositories: [accountRepo.name: accountRepo], middleware: [LoggingMiddleware()])
+        guard let path = AccountRepository.Companion().pathForRepositoryNamed(name: repoName) else { return }
+        print("\(repoName) path is \(path)")
+        let accountRepo = AccountRepository(name: repoName, path: path)
+        store = Store(repositories: [accountRepo.name: accountRepo], middleware: [LoggingMiddleware()])
         accountView.listener = self
         store.registerView(view: accountView)
+        
+        accountTable.dataSource = self
     }
 
-    func onViewReady(view: PistachioStoreView) {
+    func onViewReady(view: StoreView) {
         refreshUI()
     }
 
-    func onViewChanged(view: PistachioStoreView) {
+    func onViewChanged(view: StoreView) {
         refreshUI()
     }
 
     func refreshUI() {
         accountCountLabel.text = "\(accountView.count)"
+        accountTable.reloadData()
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return accountView.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "accountCell", for: indexPath)
+        let account = accountView.accounts[indexPath.row]
+        cell.textLabel?.text = account.name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        let acct = accountView.accounts[indexPath.row]
+        let cmd = DeleteAccountCommand(accountName: acct.name)
+        store.dispatch(command: cmd)
+    }
+    
     @IBAction func addAccount(sender: Any?) {
         guard let name = newAccountName.text, name.isEmpty == false else { return }
         let cmd = AddAccountCommand(accountName: name)
         store.dispatch(command: cmd)
+        newAccountName.text = ""
     }
 }
 
@@ -61,43 +89,62 @@ class Account: NSObject, NSCoding {
     let name: String
 }
 
-class AccountView: PistachioStoreView {
+class AccountRepository: KeyArchivingRepository {
+    override func apply(command: Command, changeList: ChangeList) {
+        switch command {
+        case let addCmd as AddAccountCommand:
+            let acct = Account(name: addCmd.accountName)
+            let id = self.put(obj: acct)
+            changeList.added(repositoryName: self.name, uuid: id)
+        case let delCmd as DeleteAccountCommand:
+            //TODO implement
+            break
+        default:
+            break
+        }
+    }
+}
+
+class AccountView: StoreView {
     var count: Int = 0
     var accounts = [Account]()
 
-    override func initialize(repositories: [String : PistachioRepository]) {
-        guard let accountRepo = repositories["accounts"] else { return }
-        accounts = accountRepo.scan { _ in return 1 }.compactMap { $0 as? Account }
+    override func initialize(repositories: [String : Repository]) {
+        guard let accountRepo = repositories[repoName] else { return }
+        accounts = accountRepo.scan { _ in return true }.compactMap { $0 as? Account }
         count = accounts.count
     }
 
-    override func update(repositories: [String : PistachioRepository], changeSet: PistachioChangeList) {
-        guard let accountRepo = repositories["accounts"] else { return }
-        accounts = accountRepo.scan { _ in return 1 }.compactMap { $0 as? Account }
+    override func update(repositories: [String : Repository], changeSet: ChangeList) {
+        guard let accountRepo = repositories[repoName] else { return }
+        accounts = accountRepo.scan { _ in return true }.compactMap { $0 as? Account }
         count = accounts.count
     }
 }
 
-class AddAccountCommand: NSObject, PistachioCommand {
+class AddAccountCommand: NSObject, Command {
     let accountName: String
 
     init(accountName: String) {
         self.accountName = accountName
     }
-
-    func apply(repositories: [String : PistachioRepository]) -> PistachioChangeList {
-        let changes = PistachioChangeList()
-        guard let accountRepo = repositories["accounts"] else { return changes }
-        let newAccount = Account(name: accountName)
-        changes.added(repositoryName: accountRepo.name, uuid: accountRepo.put(obj: newAccount))
-        return changes
-    }
+    
+    override var description: String { return "Add Account { accountName = \(accountName) }"}
 }
 
-class LoggingMiddleware: NSObject, PistachioMiddleware {
-    func next(command: PistachioCommand,
-              repositories: [String : PistachioRepository],
-              dispatch: @escaping (PistachioCommand) -> PistachioStdlibUnit) -> PistachioCommand? {
+class DeleteAccountCommand: NSObject, Command {
+    let accountName: String
+    
+    init(accountName: String) {
+        self.accountName = accountName
+    }
+    
+    override var description: String { return "Delete Account { accountName = \(accountName) }"}
+
+}
+
+class LoggingMiddleware: NSObject, Middleware {
+    func next(command: Command, repositories: [String : Repository], dispatch: @escaping (Command) -> KotlinUnit) -> Command? {
         print("Executing command: \(command)")
         return command
     }

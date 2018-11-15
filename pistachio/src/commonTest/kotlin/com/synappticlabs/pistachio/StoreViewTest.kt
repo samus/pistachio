@@ -10,7 +10,7 @@ class StoreViewTests {
 
     @BeforeTest
     fun setup() {
-        val repo = InMemoryRepository<Person>(name = "People")
+        val repo = PersonRepository()
         listOf(Person("James", "Brown", 77),
                 Person("Em", "Inem", 34)).forEach { repo.put(it) }
         store = Store(mapOf(Pair(repo.name, repo)), dispatcher = MockDispatcher())
@@ -61,15 +61,5 @@ class StoreViewTests {
 
         var populationCount = 0
         var oldest: Person? = null
-    }
-
-    internal class AddPersonCommand(private val person: Person): Command {
-        override fun apply(repositories: Map<String, Repository<*>>): ChangeList {
-            @Suppress("UNCHECKED_CAST")
-            val repo = repositories["People"] as Repository<Person>
-            val changes = ChangeList()
-            changes.added(repo.name, repo.put(person))
-            return changes
-        }
     }
 }
