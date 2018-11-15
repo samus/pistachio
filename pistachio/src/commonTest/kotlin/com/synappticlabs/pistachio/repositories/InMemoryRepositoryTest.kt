@@ -3,6 +3,7 @@ package com.synappticlabs.pistachio.repositories
 import com.synappticlabs.pistachio.ChangeList
 import com.synappticlabs.pistachio.Command
 import com.synappticlabs.pistachio.UUID
+import com.synappticlabs.pistachio.UUIDFactory
 import com.synappticlabs.pistachio.repostories.InMemoryRepository
 import kotlin.test.*
 
@@ -18,8 +19,9 @@ class InMemoryRepositoryTest {
     @Test
     fun putsAndRetrievesAFoo() {
         val foo = Foo(name = "test")
-        val actual = repo.read(foo.id)
-        assertEquals(foo, actual, "Unable to put and retrieve an object")
+        repo.put(foo, foo.id)
+        val actual = repo.read(foo.id) ?: fail("Foo not retrieved from repo.")
+        assertEquals(foo, actual, "Retrieved Foo is not the same as the put Foo.")
     }
 
     @Test
@@ -29,7 +31,7 @@ class InMemoryRepositoryTest {
         assertEquals(2, actual.count())
     }
 
-    internal data class Foo (val id: UUID = UUID.create(), val name: String)
+    internal data class Foo (val id: UUID = UUIDFactory.create(), val name: String)
     internal class FooRepo: InMemoryRepository<Foo>("Foo") {
         override fun apply(command: Command, changeList: ChangeList) {
         }

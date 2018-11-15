@@ -76,9 +76,7 @@ class Account: NSObject, NSCoding {
     let name: String
     
     convenience init(name: String) {
-        //This line should not fail with the error:
-        //NSInvalidArgumentException', reason: '-[PistachioKeyArchivingRepositoryCompanion create]: unrecognized selector sent to instance 0x600000034180'
-        let id = pistachio.UUID.Companion().create()
+        let id = UUIDFactory().create()
         self.init(id: id, name: name)
     }
     
@@ -96,7 +94,7 @@ class Account: NSObject, NSCoding {
         guard let name = aDecoder.decodeObject(forKey: "name") as? String else { return nil }
         self.name = name
         guard let idStr = aDecoder.decodeObject(forKey: "id") as? String,
-            let id = pistachio.UUID.Companion().fromString(string: idStr)
+            let id = UUIDFactory().fromString(string: idStr)
             else { return nil }
         self.id = id
     }
@@ -107,22 +105,23 @@ class AccountRepository: KeyArchivingRepository {
     override func apply(command: Command, changeList: ChangeList) {
         switch command {
         case let addCmd as AddAccountCommand:
-            let acct = Account(name: addCmd.accountName)
-            self.put(obj: acct, uuid: acct.id)
-            changeList.added(repositoryName: self.name, uuid: acct.id)
+            process(addCommand: addCmd, changeList: changeList)
         case let delCmd as DeleteAccountCommand:
-            scan(){ (account) -> KotlinBoolean in
-                guard let account = account as? Account else { return false }
-                return KotlinBoolean(bool: account.id == delCmd.accountId)
-            }
-            .compactMap { $0 as? Account }
-            .forEach { account in
-                self.delete(id: account.id)
-                changeList.removed(repositoryName: self.name, uuid: account.id)
-            }
+            process(deleteCommand: delCmd, changeList: changeList)
         default:
             break
         }
+    }
+    
+    internal func process(addCommand: AddAccountCommand, changeList: ChangeList) {
+        let acct = Account(name: addCommand.accountName)
+        self.put(obj: acct, uuid: acct.id)
+        changeList.added(repositoryName: self.name, uuid: acct.id)
+    }
+    
+    internal func process(deleteCommand: DeleteAccountCommand, changeList: ChangeList) {
+        delete(id: deleteCommand.accountId)
+        changeList.removed(repositoryName: self.name, uuid: deleteCommand.accountId)
     }
 }
 
@@ -161,7 +160,6 @@ class DeleteAccountCommand: NSObject, Command {
     }
     
     override var description: String { return "Delete Account { accountId = \(accountId) }"}
-
 }
 
 class LoggingMiddleware: NSObject, Middleware {

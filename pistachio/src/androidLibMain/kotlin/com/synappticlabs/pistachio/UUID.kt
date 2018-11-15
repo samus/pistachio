@@ -2,25 +2,17 @@ package com.synappticlabs.pistachio
 
 import java.util.UUID as JUUID
 
-actual class UUID {
-    private var juuid: JUUID
+actual typealias UUID = java.util.UUID
 
-    internal constructor(uuid: JUUID) {
-        juuid = uuid
+actual val UUID.UUIDString: String
+    get() = this.toString()
+
+actual object UUIDFactory {
+    actual fun create(): UUID {
+        return java.util.UUID.randomUUID()
     }
 
-    actual companion object {
-        actual fun create(): UUID {
-            return UUID(JUUID.randomUUID())
-        }
-
-        actual fun fromString(string: String): UUID? {
-            return JUUID.fromString(string)?.let { juuid ->
-                return@let UUID(juuid)
-            }
-        }
+    actual fun fromString(string: String): UUID? {
+        return java.util.UUID.fromString(string)
     }
-
-    actual val UUIDString: String
-        get() = juuid.toString()
 }
