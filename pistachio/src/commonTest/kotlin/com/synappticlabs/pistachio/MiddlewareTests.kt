@@ -13,9 +13,9 @@ class MiddlewareTests {
     @BeforeTest
     fun setup() {
         peopleRepo = PersonRepository()
-        listOf(Person("James", "Brown", 77),
-                Person("Em", "Inem", 34))
-            .forEach { peopleRepo.put(it) }
+        listOf(Person(firstName = "James", lastName = "Brown", age =  77),
+                Person(firstName = "Em", lastName = "Inem", age = 34))
+            .forEach { peopleRepo.put(it, it.id) }
     }
 
     @Test

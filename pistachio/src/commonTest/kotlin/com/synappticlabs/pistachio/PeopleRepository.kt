@@ -8,8 +8,8 @@ internal class PersonRepository: InMemoryRepository<Person>("People") {
         dispatchCount += 1
         when (command) {
             is AddPersonCommand -> {
-                val id = put(command.person)
-                changeList.added(this.name, id)
+                put(command.person, command.person.id)
+                changeList.added(this.name, command.person.id)
             }
         }
     }

@@ -6,10 +6,8 @@ import com.synappticlabs.pistachio.UUID
 abstract class InMemoryRepository<T>(override val name: String) : Repository<T> {
     private val repo = HashMap<UUID, T>()
 
-    override fun put(obj: T): UUID {
-        val uuid = UUID.create()
+    override fun put(obj: T, uuid: UUID) {
         repo[uuid] = obj
-        return uuid
     }
 
     override fun update(obj: T, uuid: UUID) {

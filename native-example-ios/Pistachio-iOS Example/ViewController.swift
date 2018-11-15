@@ -59,7 +59,7 @@ class ViewController: UIViewController, StoreViewListener, UITableViewDataSource
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         let acct = accountView.accounts[indexPath.row]
-        let cmd = DeleteAccountCommand(accountName: acct.name)
+        let cmd = DeleteAccountCommand(accountId: acct.id)
         store.dispatch(command: cmd)
     }
     
@@ -72,21 +72,35 @@ class ViewController: UIViewController, StoreViewListener, UITableViewDataSource
 }
 
 class Account: NSObject, NSCoding {
-
-    init(name: String) {
+    let id: pistachio.UUID
+    let name: String
+    
+    convenience init(name: String) {
+        //This line should not fail with the error:
+        //NSInvalidArgumentException', reason: '-[PistachioKeyArchivingRepositoryCompanion create]: unrecognized selector sent to instance 0x600000034180'
+        let id = pistachio.UUID.Companion().create()
+        self.init(id: id, name: name)
+    }
+    
+    init(id: pistachio.UUID, name: String) {
+        self.id = id
         self.name = name
     }
 
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: "name")
+        aCoder.encode(id.uuidString, forKey: "id")
     }
 
     required init?(coder aDecoder: NSCoder) {
-        guard let n = aDecoder.decodeObject(forKey: "name") as? String else { return nil }
-        self.name = n
+        guard let name = aDecoder.decodeObject(forKey: "name") as? String else { return nil }
+        self.name = name
+        guard let idStr = aDecoder.decodeObject(forKey: "id") as? String,
+            let id = pistachio.UUID.Companion().fromString(string: idStr)
+            else { return nil }
+        self.id = id
     }
 
-    let name: String
 }
 
 class AccountRepository: KeyArchivingRepository {
@@ -94,11 +108,18 @@ class AccountRepository: KeyArchivingRepository {
         switch command {
         case let addCmd as AddAccountCommand:
             let acct = Account(name: addCmd.accountName)
-            let id = self.put(obj: acct)
-            changeList.added(repositoryName: self.name, uuid: id)
+            self.put(obj: acct, uuid: acct.id)
+            changeList.added(repositoryName: self.name, uuid: acct.id)
         case let delCmd as DeleteAccountCommand:
-            //TODO implement
-            break
+            scan(){ (account) -> KotlinBoolean in
+                guard let account = account as? Account else { return false }
+                return KotlinBoolean(bool: account.id == delCmd.accountId)
+            }
+            .compactMap { $0 as? Account }
+            .forEach { account in
+                self.delete(id: account.id)
+                changeList.removed(repositoryName: self.name, uuid: account.id)
+            }
         default:
             break
         }
@@ -133,13 +154,13 @@ class AddAccountCommand: NSObject, Command {
 }
 
 class DeleteAccountCommand: NSObject, Command {
-    let accountName: String
+    let accountId: pistachio.UUID
     
-    init(accountName: String) {
-        self.accountName = accountName
+    init(accountId: pistachio.UUID) {
+        self.accountId = accountId
     }
     
-    override var description: String { return "Delete Account { accountName = \(accountName) }"}
+    override var description: String { return "Delete Account { accountId = \(accountId) }"}
 
 }
 

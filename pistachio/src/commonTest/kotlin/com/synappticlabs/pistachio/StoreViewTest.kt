@@ -11,8 +11,9 @@ class StoreViewTests {
     @BeforeTest
     fun setup() {
         val repo = PersonRepository()
-        listOf(Person("James", "Brown", 77),
-                Person("Em", "Inem", 34)).forEach { repo.put(it) }
+        listOf(Person(firstName = "James", lastName = "Brown", age =  77),
+                Person(firstName = "Em", lastName = "Inem", age = 34))
+                .forEach { repo.put(it, it.id) }
         store = Store(mapOf(Pair(repo.name, repo)), dispatcher = MockDispatcher())
     }
 
@@ -29,7 +30,7 @@ class StoreViewTests {
     fun updates() {
         val v = PersonStoreView()
         store.registerView(v)
-        store.dispatch(AddPersonCommand(Person("old", "man", 1000)))
+        store.dispatch(AddPersonCommand(Person(firstName = "old", lastName = "man", age =  1000)))
         assertEquals(1000, v.oldest?.age, "View did not update")
     }
 

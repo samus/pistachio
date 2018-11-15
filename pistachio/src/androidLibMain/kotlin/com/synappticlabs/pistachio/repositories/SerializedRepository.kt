@@ -15,11 +15,8 @@ abstract class SerializedRepository<T:Any>(override val name: String,
                                            val context: Context) : Repository<T> {
 
 
-    override fun put(obj: T): UUID {
-        val uuid = UUID.create()
+    override fun put(obj: T, uuid: UUID) {
         write(uuid, obj)
-
-        return uuid
     }
 
     override fun update(obj: T, uuid: UUID) {

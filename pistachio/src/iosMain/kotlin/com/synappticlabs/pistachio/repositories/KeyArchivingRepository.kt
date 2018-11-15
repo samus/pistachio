@@ -19,12 +19,8 @@ abstract class KeyArchivingRepository<T>(override val name: String, private val 
     private val fileManager = NSFileManager.defaultManager
     private val directory: NSURL = NSURL.fileURLWithPath(path, isDirectory = true)
 
-    override fun put(obj: T): UUID {
-        val uuid = UUID.create()
-
+    override fun put(obj: T, uuid: UUID) {
         this.write(uuid, obj)
-
-        return uuid
     }
 
     override fun update(obj: T, uuid: UUID) {
