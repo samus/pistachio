@@ -14,7 +14,6 @@ abstract class SerializedRepository<T:Any>(override val name: String,
                                            val directory: File,
                                            val context: Context) : Repository<T> {
 
-
     override fun put(obj: T, uuid: UUID) {
         write(uuid, obj)
     }

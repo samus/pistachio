@@ -1,10 +1,6 @@
 package com.synappticlabs.pistachio.repositories
 
-import kotlinx.cinterop.*
 import platform.Foundation.*
-import platform.darwin.*
-import platform.objc.*
-
 
 import com.synappticlabs.pistachio.*
 import com.synappticlabs.pistachio.Repository
@@ -15,16 +11,16 @@ import com.synappticlabs.pistachio.Repository
   * NSCoding and NSKeyArchiving.
   *
  */
-abstract class KeyArchivingRepository<T>(override val name: String, private val path: String): Repository<T> {
+abstract class KeyArchivingRepository<T>(override val name: String, path: String): Repository<T> {
     private val fileManager = NSFileManager.defaultManager
     private val directory: NSURL = NSURL.fileURLWithPath(path, isDirectory = true)
 
     override fun put(obj: T, uuid: UUID) {
-        this.write(uuid, obj)
+        write(uuid, obj)
     }
 
     override fun update(obj: T, uuid: UUID) {
-        this.write(uuid, obj)
+        write(uuid, obj)
     }
 
     override fun read(id: UUID): T? {
@@ -59,7 +55,7 @@ abstract class KeyArchivingRepository<T>(override val name: String, private val 
         fileManager.removeItemAtURL(file, error = null)
     }
 
-    internal fun write(uuid: UUID, obj: T) {
+    private fun write(uuid: UUID, obj: T) {
         val objc = obj as Any
         val data = NSKeyedArchiver.archivedDataWithRootObject(objc)
         val file = fileURL(uuid)

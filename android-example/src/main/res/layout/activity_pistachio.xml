@@ -7,13 +7,59 @@
     android:layout_height="match_parent"
     tools:context="com.synappticlabs.pistachio.example.PistachioActivity">
 
-    <TextView
+    <EditText
+        android:id="@+id/account_name_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Account Name"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/account_add_button"
+        app:layout_constraintEnd_toStartOf="@+id/account_add_button"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Account Name" />
+
+    <Button
+        android:id="@+id/account_add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Add Account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/account_name_edit_text"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/accounts_recycler_view"
+        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Number of Accounts:"
+        app:layout_constraintStart_toStartOf="@+id/account_name_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/account_add_button" />
+
+    <TextView
+        android:id="@+id/account_total_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/account_add_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        tools:text="24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
