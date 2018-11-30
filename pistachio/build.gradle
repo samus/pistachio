@@ -1,10 +1,11 @@
 plugins {
 	id 'com.android.library'
 	id 'org.jetbrains.kotlin.multiplatform'
+    id 'maven-publish'
 }
 
 group = 'com.synappticlabs.pistachio'
-version = 0.1
+version = '0.1.0'
 
 android {
     compileSdkVersion 28
@@ -118,4 +119,72 @@ task iosTest {
             commandLine 'xcrun', 'simctl', 'spawn', device, binary.absolutePath
         }
     }
+}
+
+project.ext.pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "Samus"
+            name "Sam Corder"
+        }
+    }
+
+    scm {
+        url "https://github.com/samus/pistachio"
+    }
+}
+
+publishing {
+    publications {
+        mavenProject(MavenPublication) {
+        }
+    }
+}
+
+afterEvaluate {
+    project.publishing.publications.forEach { publication ->
+        //println("pub.groupId ${publication.groupId}, artifactId ${publication.artifactId}, publication ${publication}")
+        publication.pom.withXml {
+            def root = asNode()
+            root.appendNode('name', "pistachio")
+            root.appendNode('description', 'Unidirectional data flow for apps.')
+            root.appendNode('url', 'https://github.com/samus/pistachio')
+            root.children().last() + pomConfig
+        }
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+bintray {
+    def keyProps = new Properties()
+    def keyFile = file("../keys.properties")
+    keyFile.withInputStream { keyProps.load(it) }
+
+    user = keyProps.getProperty("bintrayUser")
+    key = keyProps.getProperty("bintrayKey")
+    publications = ['mavenProject']
+    publish = false
+    override = true
+    pkg {
+        repo = 'pistachio'
+        name = 'pistachio'
+        userOrg = 'samus'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/samus/pistachio'
+        version {
+            name = project.version
+        }
+    }
+}
+
+bintrayUpload.doFirst {
+    publications = project.publishing.publications
 }

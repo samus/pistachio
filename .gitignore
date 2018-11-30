@@ -7,3 +7,5 @@ local.properties
 android/.idea
 *.iml
 **/xcuserdata
+
+keys.properties
