@@ -54,7 +54,10 @@ dependencies {
 
 kotlin {
     targets {
-        fromPreset(presets.android, 'androidLib')
+        fromPreset(presets.android, 'android') {
+            mavenPublication {
+            }
+        }
 
         def buildForDevice = project.findProperty("device")?.toBoolean() ?: false
         def iosPreset = (buildForDevice) ? presets.iosArm64 : presets.iosX64
@@ -86,6 +89,11 @@ kotlin {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+            }
+        }
+        androidMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
             }
         }
     }
@@ -140,15 +148,26 @@ project.ext.pomConfig = {
         url "https://github.com/samus/pistachio"
     }
 }
+apply plugin: 'digital.wup.android-maven-publish'
 
 publishing {
     publications {
         mavenProject(MavenPublication) {
         }
+
     }
 }
 
 afterEvaluate {
+    project.publishing.publications {
+        defaultAar(MavenPublication) {
+            artifact("$buildDir/outputs/aar/pistachio-release-${version}.aar")
+            artifactId = project.name + "-" + kotlin.targets.android.name.toLowerCase()
+            //println("Maven aar ${artifactId}")
+            from components.android
+            artifacts.removeAll(artifacts.matching { !it.file.name.endsWith('aar') })
+        }
+    }
     project.publishing.publications.forEach { publication ->
         //println("pub.groupId ${publication.groupId}, artifactId ${publication.artifactId}, publication ${publication}")
         publication.pom.withXml {
